@@ -8,7 +8,7 @@ export const loginSlice = createSlice({
     loading: false,
     isLogged: false,
     token: null,
-    user: null,
+    user: {},
     error: null,
   },
   reducers: {
@@ -29,11 +29,14 @@ export const loginSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setUser: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
 //actions
-export const { setLogin, setLogout, setLoading, setIsLogged, setError } =
+export const { setLogin, setLogout, setLoading, setIsLogged, setError,setUser } =
 loginSlice.actions;
 
 //selectlogin grabs the login data

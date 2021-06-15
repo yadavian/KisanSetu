@@ -5,21 +5,19 @@ import smurfImg from '../../Assets/Auth/smurf.png';
 import auth from '@react-native-firebase/auth';
 
 export default LoginScreen = ({ navigation }) => {
-
-  // If null, no SMS has been sent
-  const [confirm, setConfirm] = useState(null);
+ 
 
   // Handle the button press
   async function getOTP(phoneNumber) {
     if (phoneNumber && phoneNumber.length > 9) {
-      // console.log(phoneNumber)
+      console.log(phoneNumber)
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-      console.log("confirmation on getOTP click" + confirmation.confirmResult)
-      setConfirm(confirmation.confirmResult);
-      if (confirm != null) {
-        navigation.navigate('Otp', { "phoneNumber": phoneNumber, "confirm": confirm });
+      console.log("confirmation", confirmation) 
+      if (confirmation != null) { 
+        alert(JSON.stringify(confirmation));
+        navigation.navigate('Otp', { "phoneNumber": phoneNumber, "confirm": confirmation });
       } else {
-        alert(confirm)
+        alert(JSON.stringify(confirmation));
       }
 
     }

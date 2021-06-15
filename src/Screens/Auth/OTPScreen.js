@@ -4,30 +4,43 @@ import { Text, Button, View, StyleSheet, Pressable, Image, TextInput } from 'rea
 import smurfImg from '../../Assets/Auth/smurf.png';
 
 import auth from '@react-native-firebase/auth';
+import { useDispatch } from 'react-redux';
+import { setIsLogged, setUser } from '../../Redux/Slice/loginSlice';
 
 export default function OPTScreen({ route, navigation }) {
 
+    const dispatch = useDispatch();
+
     const { phoneNumber, confirm } = route.params;
+
+    console.log(phoneNumber, confirm);
 
     const [code, setCode] = useState('')
 
-
-    console.log(code)
-    console.log("on page load function : ", confirm)
-    console.log(phoneNumber)
-
     async function confirmCode() {
+
         try {
-            console.log("inside function : ", confirm)
-            await confirm.confirm(code);
-            console.log("success")
-            alert("Success")
+
+            const result = await confirm.confirm(code);
+            console.log(JSON.stringify(result))
+            // alert(JSON.stringify(result));
+
+            if (result) {
+                // alert("Success!")
+                console.log("success!")
+                dispatch(setUser({ "phoneNumber": phoneNumber }))
+                dispatch(setIsLogged(true))
+                
+                alert("success!")
+                navigation.navigate('HomeScreen'); 
+            }
+
             // navigation.navigate('Product', { screen: 'AddCrop', params: { "phoneNumber": phoneNumber }, });
-            navigation.navigate('Home');
+
 
         } catch (error) {
-
             console.log('Invalid code.', error.message);
+            alert(error.message)
         }
     }
 
